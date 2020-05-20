@@ -11,8 +11,8 @@
     [taoensso.timbre :as log]
     [com.fulcrologic.fulcro.routing.dynamic-routing :as dr]))
 
-(defonce remote #_(fws/fulcro-websocket-remote {:auto-retry?        true
-                                                :request-timeout-ms 10000}) (http/fulcro-http-remote {}))
+(defonce remote (fws/fulcro-websocket-remote {:auto-retry?        true
+                                              :request-timeout-ms 10000}) #_(http/fulcro-http-remote {}))
 
 (defonce app (stx/with-synchronous-transactions
                (app/fulcro-app {:remotes          {:remote remote}
