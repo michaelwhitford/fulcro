@@ -49,8 +49,6 @@
               open? (:open? @state)]
           (if open?
             (when-let [[type data] (<! inspect/send-ch)]
-              (log/debug "Forwarding to server: type =" type)
-              (log/trace "Forwarding to server: data =" data)
               (send-fn [:fulcro.inspect/message {:type type :data data :timestamp (js/Date.)}]))
             (do
               (log/trace (str "Waiting for channel to be ready"))
@@ -63,10 +61,8 @@
               open? (:open? @state)]
           (if open?
             (enc/when-let [[event-type message] (:event (<! ch-recv))
-                           _ (= :fulcro.inspect/event event-type)
-                           {:as msg :keys [type data]} message]
-              (log/debug "Forwarding from electron: type =" type)
-              (log/trace "Forwarding from electron: data =" data)
+                           _   (= :fulcro.inspect/event event-type)
+                           msg message]
               (inspect/handle-devtool-message msg))
             (do
               (log/trace (str "Waiting for channel to be ready"))
